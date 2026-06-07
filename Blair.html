@@ -1,0 +1,367 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blair Waldorf Universe</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+
+background:
+linear-gradient(rgba(0,0,0,.55),
+rgba(0,0,0,.55)),
+url("images/blair.bg.jpg");
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
+color:white;
+padding:40px;
+min-height:100vh;
+}
+
+h1{
+font-family:'Playfair Display',serif;
+font-size:4rem;
+text-align:center;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+margin-bottom:40px;
+font-size:1.2rem;
+opacity:.9;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:25px;
+max-width:1400px;
+margin:auto;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+padding:25px;
+border-radius:25px;
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+.card h2{
+margin-bottom:15px;
+font-family:'Playfair Display',serif;
+}
+
+input, textarea{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+margin-top:10px;
+}
+
+button{
+margin-top:10px;
+padding:12px 20px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-weight:bold;
+}
+
+#todoList li{
+margin-top:10px;
+}
+
+.back{
+display:block;
+width:max-content;
+margin:40px auto;
+padding:15px 25px;
+background:white;
+color:black;
+text-decoration:none;
+border-radius:15px;
+font-weight:bold;
+}
+
+</style>
+</head>
+<body>
+
+<h1>👑 Blair Waldorf Universe</h1>
+
+<p class="subtitle">
+Luxury • Leadership • Ambition • Success
+</p>
+
+<div class="grid">
+   
+<div class="card">
+
+<h2>📅 Goal Deadline Countdown</h2>
+
+<input
+type="date"
+id="examDate">
+
+<button onclick="calculateCountdown()">
+Calculate
+</button>
+
+<p id="countdownResult">
+Select a date.
+</p>
+
+</div>
+
+ <div class="card">
+<h2>⏳ Focus Session</h2>
+
+<h3 id="timer">25:00</h3>
+
+<button onclick="startTimer()">
+Start Timer
+</button>
+
+</div>
+
+<div class="card">
+<h2>💎 Blair's Quote</h2>
+<p>
+"Destiny is for losers. It's just a stupid excuse to wait for things to happen instead of making them happen."
+</p>
+</div>
+
+<div class="card">
+<h2>🎯 Goal Planner</h2>
+<input placeholder="Main Goal">
+<input placeholder="Deadline">
+</div>
+
+<div class="card">
+<h2>🏆 Achievement Board</h2>
+<textarea placeholder="Record your achievements..."></textarea>
+</div>
+
+<div class="card">
+<h2>✅ Success Checklist</h2>
+
+<input id="todoInput" placeholder="Add Task">
+
+<button onclick="addTask()">
+Add Task
+</button>
+
+<ul id="todoList"></ul>
+
+</div>
+
+<div class="card">
+<h2>✨ Confidence Meter</h2>
+<h3>100%</h3>
+<p>You are the main character of your story.</p>
+</div>
+
+
+
+</div>
+
+<a href="index.html" class="back">
+← Back to StudyVerse
+</a>
+
+<script>
+
+function addTask(){
+
+let input=document.getElementById("todoInput");
+let list=document.getElementById("todoList");
+
+if(input.value==="") return;
+
+let li=document.createElement("li");
+li.textContent=input.value;
+
+list.appendChild(li);
+
+input.value="";
+}
+
+function askBlair(){
+
+const question=
+document.getElementById("userQuestion")
+.value.toLowerCase();
+
+let response="";
+
+if(question.includes("confidence")){
+
+response=
+"Walk into every room like you belong there. Confidence grows through action.";
+
+}
+
+else if(question.includes("study")){
+
+response=
+"Excellence is a habit. Show up even when you don't feel like it.";
+
+}
+
+else if(question.includes("goal")){
+
+response=
+"Successful people don't wish. They plan, execute, and adjust.";
+
+}
+
+else if(question.includes("motivation")){
+
+response=
+"Stop waiting for motivation. Create momentum.";
+
+}
+
+else if(question.includes("leadership")){
+
+response=
+"Leadership begins when people trust your actions more than your words.";
+
+}
+
+else{
+
+response=
+"Know your worth and never settle for less than your potential.";
+
+}
+
+document.getElementById("aiResponse")
+.innerText=response;
+
+speakText(response);
+
+}
+
+function speakCurrentResponse(){
+
+const text=
+document.getElementById("aiResponse")
+.innerText;
+
+speakText(text);
+
+}
+
+function speakText(text){
+
+speechSynthesis.cancel();
+
+const speech =
+new SpeechSynthesisUtterance(text);
+
+speech.rate = 0.95;
+speech.pitch = 1.25;
+speech.volume = 1;
+
+const voices =
+speechSynthesis.getVoices();
+
+const femaleVoice =
+voices.find(v => v.name.includes("Samantha")) ||
+
+voices.find(v => v.name.includes("Karen")) ||
+
+voices.find(v => v.name.includes("Victoria")) ||
+
+voices.find(v => v.name.includes("Ava")) ||
+
+voices.find(v => v.name.includes("Allison"));
+
+if(femaleVoice){
+speech.voice = femaleVoice;
+}
+
+speechSynthesis.speak(speech);
+
+}
+let time=1500;
+let running=false;
+
+function startTimer(){
+
+if(running) return;
+
+running=true;
+
+let timer=
+setInterval(()=>{
+
+let min=Math.floor(time/60);
+let sec=time%60;
+
+document.getElementById("timer").innerText=
+`${min}:${sec<10?"0":""}${sec}`;
+
+time--;
+
+if(time<0){
+
+clearInterval(timer);
+
+alert("Excellent work. Time for a break.");
+
+running=false;
+time=1500;
+
+}
+
+},1000);
+
+}
+function calculateCountdown(){
+
+const examDate=
+document.getElementById("examDate").value;
+
+if(!examDate) return;
+
+const today=
+new Date();
+
+const exam=
+new Date(examDate);
+
+const diff=
+Math.ceil(
+(exam-today)/(1000*60*60*24)
+);
+
+document.getElementById("countdownResult")
+.innerText=
+`${diff} days remaining`;
+
+}
+</script>
+
+</body>
+</html>
+```

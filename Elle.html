@@ -1,0 +1,369 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elle Woods Universe</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:'Poppins',sans-serif;
+
+background:
+linear-gradient(rgba(0,0,0,.45),
+rgba(0,0,0,.45)),
+url("images/elle.bg.jpg");
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
+color:white;
+padding:40px;
+min-height:100vh;
+}
+
+h1{
+text-align:center;
+font-size:4rem;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+font-size:1.2rem;
+margin-bottom:40px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:25px;
+max-width:1400px;
+margin:auto;
+}
+
+.card{
+background:rgba(255,255,255,.12);
+backdrop-filter:blur(12px);
+padding:25px;
+border-radius:25px;
+}
+
+.card h2{
+margin-bottom:15px;
+}
+
+input, textarea{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+margin-top:10px;
+}
+
+button{
+margin-top:10px;
+padding:12px 20px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-weight:bold;
+}
+
+#todoList li{
+margin-top:10px;
+}
+
+.back{
+display:block;
+width:max-content;
+margin:40px auto;
+padding:15px 25px;
+background:white;
+color:black;
+text-decoration:none;
+border-radius:12px;
+font-weight:bold;
+}
+
+</style>
+</head>
+<body>
+
+<h1>💗 Elle Woods Universe</h1>
+
+<p class="subtitle">
+Confidence • Harvard Law • Dreams • Success
+</p>
+
+<div class="grid">
+
+<div class="card">
+<h2>💖 Daily Confidence Boost</h2>
+<p>
+Believe in yourself first. Confidence is your superpower.
+</p>
+</div>
+
+<div class="card">
+<h2>🎯 Dream Career Board</h2>
+<input placeholder="Dream Career">
+<input placeholder="Why do you want it?">
+</div>
+
+<div class="card">
+<h2>📝 Notes</h2>
+<textarea placeholder="Write your study notes here..."></textarea>
+</div>
+
+<div class="card">
+<h2>✅ To-Do List</h2>
+
+<input id="todoInput" placeholder="Add task">
+
+<button onclick="addTask()">
+Add Task
+</button>
+
+<ul id="todoList"></ul>
+
+</div>
+
+<div class="card">
+<h2>⏳ Pomodoro Timer</h2>
+
+<h3 id="timer">25:00</h3>
+
+<button onclick="startTimer()">
+Start Focus Session
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📅 Exam Countdown</h2>
+
+<input
+type="date"
+id="examDate">
+
+<button onclick="calculateCountdown()">
+Calculate
+</button>
+
+<p id="countdownResult">
+Select your exam date.
+</p>
+
+</div>
+
+<div class="card">
+<h2>🌟 Confidence Meter</h2>
+<h3>100%</h3>
+<p>
+You are capable of more than you think.
+</p>
+</div>
+
+
+</div>
+
+<a href="index.html" class="back">
+← Back to StudyVerse
+</a>
+
+<script>
+
+function addTask(){
+
+let input=
+document.getElementById("todoInput");
+
+let list=
+document.getElementById("todoList");
+
+if(input.value==="") return;
+
+let li=
+document.createElement("li");
+
+li.textContent=input.value;
+
+list.appendChild(li);
+
+input.value="";
+
+}
+
+let time=1500;
+let running=false;
+
+function startTimer(){
+
+if(running) return;
+
+running=true;
+
+let timer=
+setInterval(()=>{
+
+let min=Math.floor(time/60);
+let sec=time%60;
+
+document.getElementById("timer").innerText=
+`${min}:${sec<10?"0":""}${sec}`;
+
+time--;
+
+if(time<0){
+
+clearInterval(timer);
+
+alert("Amazing work! Take a break.");
+
+running=false;
+time=1500;
+
+}
+
+},1000);
+
+}
+
+function calculateCountdown(){
+
+const examDate=
+document.getElementById("examDate").value;
+
+if(!examDate) return;
+
+const today=
+new Date();
+
+const exam=
+new Date(examDate);
+
+const diff=
+Math.ceil(
+(exam-today)/(1000*60*60*24)
+);
+
+document.getElementById("countdownResult")
+.innerText=
+`${diff} days remaining`;
+
+}
+
+function askElle(){
+
+const question=
+document.getElementById("userQuestion")
+.value.toLowerCase();
+
+let response="";
+
+if(question.includes("confidence")){
+
+response=
+"You are stronger and smarter than you think. Believe in yourself.";
+
+}
+
+else if(question.includes("exam")){
+
+response=
+"You've got this! A little preparation every day adds up.";
+
+}
+
+else if(question.includes("study")){
+
+response=
+"Study smart, stay organized, and don't forget to take breaks.";
+
+}
+
+else if(question.includes("motivation")){
+
+response=
+"Success starts with showing up consistently.";
+
+}
+
+else if(question.includes("goal")){
+
+response=
+"Dream big and then create a plan to make it happen.";
+
+}
+
+else{
+
+response=
+"Remember, what makes you different can also be your greatest strength.";
+
+}
+
+document.getElementById("aiResponse")
+.innerText=response;
+
+speakText(response);
+
+}
+
+function speakCurrentResponse(){
+
+const text=
+document.getElementById("aiResponse")
+.innerText;
+
+speakText(text);
+
+}
+
+function speakText(text){
+
+speechSynthesis.cancel();
+
+const speech=
+new SpeechSynthesisUtterance(text);
+
+speech.rate=.95;
+speech.pitch=1.3;
+speech.volume=1;
+
+const voices=
+speechSynthesis.getVoices();
+
+const femaleVoice=
+voices.find(v=>v.name.includes("Samantha")) ||
+voices.find(v=>v.name.includes("Karen")) ||
+voices.find(v=>v.name.includes("Victoria")) ||
+voices.find(v=>v.name.includes("Ava"));
+
+if(femaleVoice){
+speech.voice=femaleVoice;
+}
+
+speechSynthesis.speak(speech);
+
+}
+
+</script>
+
+</body>
+</html>
+```

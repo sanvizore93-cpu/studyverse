@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rory Gilmore Universe</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:'Poppins',sans-serif;
+
+background:
+linear-gradient(rgba(0,0,0,.55),
+rgba(0,0,0,.55)),
+url("images/rory.bg.jpg");
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
+min-height:100vh;
+color:white;
+padding:40px;
+}
+
+h1{
+font-family:'Playfair Display',serif;
+font-size:4rem;
+text-align:center;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+margin-bottom:40px;
+font-size:1.2rem;
+opacity:.9;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:25px;
+max-width:1400px;
+margin:auto;
+}
+
+.card{
+
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+
+padding:25px;
+border-radius:25px;
+
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+.card h2{
+margin-bottom:15px;
+font-family:'Playfair Display',serif;
+}
+
+textarea{
+width:100%;
+height:150px;
+border:none;
+border-radius:15px;
+padding:15px;
+font-size:1rem;
+resize:none;
+}
+
+input{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+margin-top:10px;
+}
+
+button{
+margin-top:10px;
+padding:12px 20px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-weight:bold;
+}
+
+#todoList li{
+margin-top:10px;
+}
+
+.quote{
+font-style:italic;
+font-size:1.1rem;
+line-height:1.8;
+}
+
+.back{
+display:block;
+width:max-content;
+margin:40px auto;
+padding:15px 25px;
+background:white;
+color:black;
+text-decoration:none;
+border-radius:15px;
+font-weight:bold;
+}
+
+</style>
+</head>
+<body>
+
+<h1>📚 Rory Gilmore Universe</h1>
+
+<p class="subtitle">
+Yale • Books • Coffee • Curiosity • Lifelong Learning
+</p>
+
+<div class="grid">
+
+<div class="card">
+<h2>☕ Today's Rory Motivation</h2>
+
+<p class="quote">
+"You have to decide what your greatest priorities are and have the courage to say no to other things."
+</p>
+
+</div>
+
+<div class="card">
+<h2>📖 Reading Tracker</h2>
+
+<input placeholder="Current Book">
+<input placeholder="Pages Read Today">
+<button>Save Progress</button>
+</div>
+
+<div class="card">
+<h2>📝 Notes</h2>
+
+<textarea placeholder="Write your thoughts here..."></textarea>
+</div>
+
+<div class="card">
+<h2>✅ To-Do List</h2>
+
+<input id="todoInput" placeholder="Add task">
+
+<button onclick="addTask()">
+Add Task
+</button>
+
+<ul id="todoList"></ul>
+</div>
+
+<div class="card">
+<h2>⏳ Study Timer</h2>
+
+<h3 id="timer">25:00</h3>
+
+<button onclick="startTimer()">
+Start Pomodoro
+</button>
+</div>
+
+<div class="card">
+
+<h2>🤖 Rory AI Companion</h2>
+
+<p id="aiResponse">
+Hi! I'm Rory. Ask me about studying, exams, books, writing, productivity, or motivation.
+</p>
+
+<input
+type="text"
+id="userQuestion"
+placeholder="Ask Rory something...">
+
+<button onclick="askRory()">
+Ask Rory
+</button>
+
+<button onclick="speakCurrentResponse()">
+🎤 Hear Rory
+</button>
+
+</div>
+
+<a href="index.html" class="back">
+← Back to StudyVerse
+</a>
+
+<script>
+
+function addTask(){
+
+let input =
+document.getElementById("todoInput");
+
+let list =
+document.getElementById("todoList");
+
+if(input.value==="") return;
+
+let li=document.createElement("li");
+
+li.textContent=input.value;
+
+list.appendChild(li);
+
+input.value="";
+}
+
+let time=1500;
+let running=false;
+
+function startTimer(){
+
+if(running) return;
+
+running=true;
+
+let timer=
+setInterval(()=>{
+
+let min=
+Math.floor(time/60);
+
+let sec=
+time%60;
+
+document.getElementById("timer")
+.innerText=
+`${min}:${sec<10?"0":""}${sec}`;
+
+time--;
+
+if(time<0){
+
+clearInterval(timer);
+
+alert("Great work! Take a short break.");
+
+running=false;
+time=1500;
+
+}
+
+},1000);
+
+}
+
+function askRory(){
+
+const question =
+document.getElementById("userQuestion")
+.value.toLowerCase();
+
+let response="";
+
+if(question.includes("motivation")){
+
+response =
+"Progress matters more than perfection. Focus on today's work and trust the process.";
+
+}
+
+else if(question.includes("exam")){
+
+response =
+"Break your revision into smaller goals and review regularly rather than cramming everything at once.";
+
+}
+
+else if(question.includes("study")){
+
+response =
+"Try studying for twenty five minutes with full focus, then take a short break.";
+
+}
+
+else if(question.includes("book")){
+
+response =
+"Reading widely helps you understand different perspectives and become a stronger writer.";
+
+}
+
+else if(question.includes("writing")){
+
+response =
+"Write your ideas first and edit later. A finished draft can always be improved.";
+
+}
+
+else if(question.includes("college")){
+
+response =
+"Build strong habits, stay curious, and pursue activities that genuinely interest you.";
+
+}
+
+else{
+
+response =
+"I believe curiosity is one of the most powerful study tools. Keep asking questions.";
+
+}
+
+document.getElementById("aiResponse").innerText =
+response;
+
+speakText(response);
+
+}
+
+function speakCurrentResponse(){
+
+const text =
+document.getElementById("aiResponse").innerText;
+
+speakText(text);
+
+}
+
+function speakText(text){
+
+speechSynthesis.cancel();
+
+const speech =
+new SpeechSynthesisUtterance(text);
+
+speech.rate = 0.95;
+speech.pitch = 1.15;
+speech.volume = 1;
+
+const voices =
+speechSynthesis.getVoices();
+
+const voice =
+voices.find(v => v.name.includes("Samantha")) ||
+voices.find(v => v.name.includes("Karen")) ||
+voices.find(v => v.name.includes("Victoria"));
+
+if(voice){
+speech.voice = voice;
+}
+
+speechSynthesis.speak(speech);
+
+}
+
+</script>
+
+</body>
+</html>

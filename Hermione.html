@@ -1,0 +1,382 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermione Granger Universe</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:'Poppins',sans-serif;
+
+background:
+linear-gradient(rgba(0,0,0,.6),
+rgba(0,0,0,.6)),
+url("images/hermione.bg.jpg");
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
+min-height:100vh;
+color:white;
+padding:40px;
+}
+
+h1{
+font-family:'Cinzel',serif;
+font-size:4rem;
+text-align:center;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+font-size:1.2rem;
+margin-bottom:40px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:25px;
+max-width:1400px;
+margin:auto;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+padding:25px;
+border-radius:25px;
+}
+
+.card h2{
+margin-bottom:15px;
+font-family:'Cinzel',serif;
+}
+
+input,textarea{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+margin-top:10px;
+}
+
+button{
+margin-top:10px;
+padding:12px 20px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-weight:bold;
+}
+
+#todoList li{
+margin-top:10px;
+}
+
+.back{
+display:block;
+width:max-content;
+margin:40px auto;
+padding:15px 25px;
+background:white;
+color:black;
+text-decoration:none;
+border-radius:12px;
+font-weight:bold;
+}
+
+</style>
+</head>
+<body>
+
+<h1>🪄 Hermione Granger Universe</h1>
+
+<p class="subtitle">
+Knowledge • Discipline • Hogwarts • Excellence
+</p>
+
+<div class="grid">
+
+<div class="card">
+<h2>📚 Hermione's Wisdom</h2>
+<p>
+"Books! And cleverness! There are more important things — friendship and bravery."
+</p>
+</div>
+
+<div class="card">
+<h2>📖 Revision Vault</h2>
+<textarea placeholder="Write key revision notes..."></textarea>
+</div>
+
+<div class="card">
+<h2>📝 Study Notes</h2>
+<textarea placeholder="Organize your knowledge here..."></textarea>
+</div>
+
+<div class="card">
+<h2>✅ Study Tasks</h2>
+
+<input id="todoInput" placeholder="Add task">
+
+<button onclick="addTask()">
+Add Task
+</button>
+
+<ul id="todoList"></ul>
+
+</div>
+
+<div class="card">
+<h2>⏳ Pomodoro Timer</h2>
+
+<h3 id="timer">25:00</h3>
+
+<button onclick="startTimer()">
+Start Revision Session
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📅 Exam Countdown</h2>
+
+<input
+type="date"
+id="examDate">
+
+<button onclick="calculateCountdown()">
+Calculate
+</button>
+
+<p id="countdownResult">
+Select your exam date.
+</p>
+
+</div>
+
+<div class="card">
+<h2>⭐ Knowledge Points</h2>
+<h3>125 XP</h3>
+<p>
+Every page studied increases your magical knowledge.
+</p>
+</div>
+
+<div class="card">
+
+<h2>🤖 Hermione AI Companion</h2>
+
+<p id="aiResponse">
+Hello! I'm Hermione. Ask me about studying, exams, revision, books, or productivity.
+</p>
+
+<input
+type="text"
+id="userQuestion"
+placeholder="Ask Hermione something...">
+
+<button onclick="askHermione()">
+Ask Hermione
+</button>
+
+<button onclick="speakCurrentResponse()">
+🎤 Hear Hermione
+</button>
+
+</div>
+
+</div>
+
+<a href="index.html" class="back">
+← Back to StudyVerse
+</a>
+
+<script>
+
+function addTask(){
+
+let input=document.getElementById("todoInput");
+let list=document.getElementById("todoList");
+
+if(input.value==="") return;
+
+let li=document.createElement("li");
+
+li.textContent=input.value;
+
+list.appendChild(li);
+
+input.value="";
+
+}
+
+let time=1500;
+let running=false;
+
+function startTimer(){
+
+if(running) return;
+
+running=true;
+
+let timer=setInterval(()=>{
+
+let min=Math.floor(time/60);
+let sec=time%60;
+
+document.getElementById("timer").innerText=
+`${min}:${sec<10?"0":""}${sec}`;
+
+time--;
+
+if(time<0){
+
+clearInterval(timer);
+
+alert("Excellent revision session completed!");
+
+running=false;
+time=1500;
+
+}
+
+},1000);
+
+}
+
+function calculateCountdown(){
+
+const examDate=
+document.getElementById("examDate").value;
+
+if(!examDate) return;
+
+const today=new Date();
+const exam=new Date(examDate);
+
+const diff=Math.ceil(
+(exam-today)/(1000*60*60*24)
+);
+
+document.getElementById("countdownResult")
+.innerText=
+`${diff} days remaining`;
+
+}
+
+function askHermione(){
+
+const question=
+document.getElementById("userQuestion")
+.value.toLowerCase();
+
+let response="";
+
+if(question.includes("exam")){
+
+response=
+"Preparation is the key to success. Start early and revise consistently.";
+
+}
+
+else if(question.includes("revision")){
+
+response=
+"Active recall and spaced repetition are among the most effective study techniques.";
+
+}
+
+else if(question.includes("study")){
+
+response=
+"Create a structured timetable and stick to it.";
+
+}
+
+else if(question.includes("book")){
+
+response=
+"Books remain one of the greatest sources of knowledge available.";
+
+}
+
+else if(question.includes("motivation")){
+
+response=
+"Discipline will carry you further than motivation ever can.";
+
+}
+
+else{
+
+response=
+"Learning is not just about grades. It is about understanding the world.";
+
+}
+
+document.getElementById("aiResponse")
+.innerText=response;
+
+speakText(response);
+
+}
+
+function speakCurrentResponse(){
+
+const text=
+document.getElementById("aiResponse")
+.innerText;
+
+speakText(text);
+
+}
+
+function speakText(text){
+
+speechSynthesis.cancel();
+
+const speech=
+new SpeechSynthesisUtterance(text);
+
+speech.rate=.95;
+speech.pitch=1.15;
+speech.volume=1;
+
+const voices=
+speechSynthesis.getVoices();
+
+const femaleVoice=
+voices.find(v=>v.name.includes("Samantha")) ||
+voices.find(v=>v.name.includes("Karen")) ||
+voices.find(v=>v.name.includes("Victoria"));
+
+if(femaleVoice){
+speech.voice=femaleVoice;
+}
+
+speechSynthesis.speak(speech);
+
+}
+
+</script>
+
+</body>
+</html>
+```
